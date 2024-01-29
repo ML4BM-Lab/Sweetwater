@@ -44,23 +44,25 @@ class SweetWaterAutoEncoder(torch.nn.Module):
         self.propl2 = Linear(self.l2size, self.num_classes)
 
         #activation functions
-        self.relu = ReLU()
+        self.relu1 = ReLU()
+        self.relu2 = ReLU()
+        self.relu3 = ReLU()
         self.smm = Softmax(dim=1)
         self.sm = Sigmoid()
 
-    def forward(self, x, mode):
+    def forward(self, x, mode = 'phase3'):
         
         # Apply a final (linear) classifier.
         ## encoder
         ench1 = self.encl1(x)
-        ench1 = self.relu(ench1)
+        ench1 = self.relu1(ench1)
         ench2 = self.encl2(ench1)
 
         if mode == 'phase3':
 
             ##proportions inference
             propl1 = self.propl1(ench2)
-            propl1 = self.relu(propl1)
+            propl1 = self.relu2(propl1)
             propl2 = self.propl2(propl1)
             propl2 = self.smm(propl2)
 
@@ -70,7 +72,7 @@ class SweetWaterAutoEncoder(torch.nn.Module):
             
             ##decoder
             dech1 = self.decl1(ench2)
-            dech1 = self.relu(dech1)
+            dech1 = self.relu3(dech1)
             dech2 = self.decl2(dech1)
 
             return dech2
