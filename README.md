@@ -1,5 +1,4 @@
 # Sweetwater
-Official repository of the data-driven deconvolution approach Sweetwater.
 
 Single-cell RNA-sequencing (scRNA-seq) stands as a powerful tool for deciphering cellular heterogeneity and exploring
 gene expression profiles at high resolution. However, its high cost renders it impractical for extensive sample cohorts within

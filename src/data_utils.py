@@ -106,23 +106,10 @@ def generate_synthethic(scRNA, nsamples = 1000, ct=None):
     return xpseudo, ypseudo
 
 def convert_to_float_tensors(*args):
-    return [torch.tensor(x).float().cuda() if torch.cuda.is_available() else torch.tensor(x).float() for x in args]
+    return [torch.tensor(x).float() for x in args]
 
-def transform_and_normalize(psbulkrna, bulkrna, log=True):
-
-    ##apply log-t and minmax
-    if log:
-        psbulkrna = np.log2(psbulkrna+1)
-    #psbulkrna_l = psbulkrna - psbulkrna.mean(axis=0)
-    psbulkrna_lt = MinMaxScaler(feature_range=(0,1)).fit_transform(psbulkrna.T).T
-
-    ## same with bulk
-    if log:
-        bulkrna = np.log2(bulkrna+1)
-    #bulkrna_l= bulkrna - bulkrna.mean(axis=0)
-    bulkrna_lt = MinMaxScaler(feature_range=(0,1)).fit_transform(bulkrna.T).T
-
-    return psbulkrna_lt, bulkrna_lt
+def transform_and_normalize(*args):
+    return [MinMaxScaler(feature_range=(0,1)).fit_transform(np.log2(x+1).T).T for x in args]
 
 def CCCscore(y_pred, y_true, mode='all'):
 
