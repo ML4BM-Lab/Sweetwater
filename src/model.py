@@ -10,6 +10,7 @@ class SweetWater:
         
         self.verbose = verbose
         self.xtrain, self.ytrain, self.xtest, self.ytest = data
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         """
         Bulkrna
@@ -17,6 +18,8 @@ class SweetWater:
 
         #define train/test sets just to trigger earlystop if phase2 overfits
         self.bulk_train, self.bulk_test = train_test_split(bulkrna, test_size = 0.2, random_state=13)
+        self.bulk_train = self.bulk_train.float()
+        self.bulk_test = self.bulk_test.float().to(self.device)
         
         """
         Define parameters
@@ -37,8 +40,7 @@ class SweetWater:
     def setup(self):
 
         #model and metrics
-        model_str = 'cuda' if torch.cuda.is_available() else 'gpu'
-        self.aemodel = models_utils.SweetWaterAutoEncoder(num_features = self.xtrain.shape[1], num_classes = self.ytrain.shape[1]).to(model_str)
+        self.aemodel = models_utils.SweetWaterAutoEncoder(num_features = self.xtrain.shape[1], num_classes = self.ytrain.shape[1]).to(self.device)
         self.mseloss = torch.nn.MSELoss()  
         self.optimizer = torch.optim.Adam(self.aemodel.parameters(), lr = self.lr)
 
@@ -115,11 +117,11 @@ class SweetWater:
 
                     for xpseudo in self.phase1_dl:
                         
-                        batch_pseudo_alignment_loss = self.train(x = xpseudo.cuda(), mode='phase1')
+                        batch_pseudo_alignment_loss = self.train(x = xpseudo.to(self.device), mode='phase1')
                         btrloss.append(batch_pseudo_alignment_loss)
                         
                     for xpseudo_test in self.phase1_dl_test:
-                        bteloss.append(self.test(x = xpseudo_test.cuda(), mode='phase1'))
+                        bteloss.append(self.test(x = xpseudo_test.to(self.device), mode='phase1'))
 
                     test_pseudo_alignment_loss = np.mean(bteloss)
                     
@@ -149,7 +151,7 @@ class SweetWater:
 
                     for xbulk in self.phase2_dl:
                         
-                        batch_pseudo_alignment_loss = self.train(x = xbulk.cuda(), mode='phase2')
+                        batch_pseudo_alignment_loss = self.train(x = xbulk.to(self.device), mode='phase2')
                         btrloss.append(batch_pseudo_alignment_loss)
                         
                     aebulktrloss.append(np.mean(btrloss))
@@ -177,7 +179,7 @@ class SweetWater:
                     ## train
                     for xpseudo, bypseudo in self.phase3_dl:
                         
-                        bproploss, bypred = self.train(x = xpseudo.cuda(), ytrue = bypseudo.cuda(), mode='phase3')
+                        bproploss, bypred = self.train(x = xpseudo.to(self.device), ytrue = bypseudo.to(self.device), mode='phase3')
                         batched_trproploss.append(bproploss)
                         
                         bpropr2 = self.r2(bypseudo.numpy(), bypred.cpu().detach().numpy())
@@ -189,7 +191,7 @@ class SweetWater:
                     btestproploss, btestr2 = [], []
                     for xpseudo_test, bypseudo_test in self.phase3_dl_test:
                         ## test
-                        testproploss_, testypred = self.test(xpseudo_test.cuda(), bypseudo_test.cuda(), mode='phase3')
+                        testproploss_, testypred = self.test(xpseudo_test.to(self.device), bypseudo_test.to(self.device), mode='phase3')
 
                         btestproploss.append(testproploss_)
                         btestr2.append(self.r2(bypseudo_test.numpy(), testypred.cpu().detach().numpy()))
