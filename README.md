@@ -24,3 +24,6 @@ the results.
     <img width="100%" src="https://raw.githubusercontent.com/ubioinformat/Sweetwater/main/imgs/figure1_nature.png">
 </p>
 
+In order to use Sweetwater, we have included an example.ipynb file where it is showed how to deconvolve
+an expression matrix using a scRNA-seq reference, perform the interpretability analysis showed in the manuscript, 
+and generate pseudobulk samples using FASTQ references.
