@@ -1,0 +1,16 @@
+FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime 
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    git\
+    nano\
+    wget
+
+RUN pip install --upgrade pip
+
+RUN pip install matplotlib pandas umap-learn seaborn scikit-learn torch numpy scipy PyComplexHeatmap
+
+RUN mkdir /wdir
+WORKDIR /wdir

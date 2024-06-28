@@ -1,2 +1,7 @@
-data/*
+data/raw/*
+data/reduce_matrices.py
+data/load_rosmap.py
+data/cell_type_association.json
 src/__pycache__/*
+.venv/
+data/output/*
