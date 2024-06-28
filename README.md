@@ -33,12 +33,12 @@ the results.
 
 Encoder:
 
-| Parameter type            | Value    |
-|---------------------------|----------|
-| Layer type                | Linear   |
-| Number of hidden layer    | 2        |
-| Activation function       | ReLU     |
-| Embedding dimension       | \( G → G^2 → G^4 \) |
+| Parameter type          | Value                       |
+|-------------------------|-----------------------------|
+| Layer type              | Linear                      |
+| Number of hidden layers | 2                           |
+| Activation function     | ReLU                        |
+| Embedding dimension     | \( G \rightarrow G^2 \rightarrow G^4 \) |
 
 Decoder: 
 
