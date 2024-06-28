@@ -38,7 +38,7 @@ Encoder:
 | Layer type              | Linear                      |
 | Number of hidden layers | 2                           |
 | Activation function     | ReLU                        |
-| Embedding dimension     | $$G \rightarrow G^2 \rightarrow G^4$$ |
+| Embedding dimension     | $$G \rightarrow G^\frac{1}{2} \rightarrow G^\frac{1}{4}$$ |
 
 Decoder: 
 
@@ -47,7 +47,7 @@ Decoder:
 | Layer type                | Linear          |
 | Number of hidden layer    | 2               |
 | Activation function       | ReLU            |
-| Embedding dimension       | \( G^4 → G^2 → G \) |
+| Embedding dimension       | $$G^\frac{1}{4} → G^\frac{1}{2} → G$$ |
 
 Deconvolver:
 
@@ -56,7 +56,7 @@ Deconvolver:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU, Softmax    |
-| Embedding dimension       | \( G^4 → G^2 → C_t \) |
+| Embedding dimension       | $$G^\frac{1}{4} → G^\frac{1}{2} → C_t$$ |
 
 The model is trained with:
 
@@ -69,14 +69,14 @@ The model is trained with:
 | EarlyStopper Phase II     | patience = 10 |
 | EarlyStopper Phase III    | patience = 50 |
 
-Here \( G \) is the number of input genes and \( C_t \) is the number of cell types to be deconvolved. 
+Here G is the number of input genes and C_t is the number of cell types to be deconvolved. 
 
 ## Build docker 
 
-Build image as (in the same folder as the Dockerfile):
+Build image as:
 ```
 docker build -t <image_name> docker/.
-# docker build -t sweetwater .
+# docker build -t sweetwater docker/.
 ```
 
 To run the container
@@ -90,39 +90,19 @@ docker run -dt --gpus all --name <container_name> <image_name>
 
 ## Run the model 
 
-**Parameters:**
+Sweetwater allow to modify several parameters:
 
-### -sc, --scrna
-- **Description**: Path to the single-cell RNA matrix file. Should have annotated cell types as the index and genes as the columns.
-- **Default Value**: `data/scrna_reduced_3000.tsv`
-- **Type**: `str`
+| Argument          | Description                                                                                          | Default Value                   | Type  |
+|-------------------|------------------------------------------------------------------------------------------------------|---------------------------------|-------|
+| -sc, --scrna      | Path to the single-cell RNA matrix file. Should have annotated cell types as the index and genes as the columns. | `data/scrna_reduced_3000.tsv`   | `str` |
+| -bulk, --bulkrna  | Path to the bulk RNA matrix file. Should have genes as the columns, in the same order and size as the scRNA reference file. | `data/bulkrna_reduced_3000.tsv` | `str` |
+| -dname, --datasetname | Name of the dataset.                                                                               | `example`                       | `str` |
+| -n, --nsamples    | Number of pseudobulk samples to generate. Default is recommended.                                     | 5000                            | `int` |
+| -bs, --batchsize  | Batch size to train with. Default is recommended.                                                     | 256                             | `int` |
+| -o, --output      | Output path for saving the trained model and deconvolved bulkRNA dataframe.                           | `data/output/`                  | `str` |
 
-### -bulk, --bulkrna
-- **Description**: Path to the bulk RNA matrix file. Should have genes as the columns, in the same order as the scRNA reference file.
-- **Default Value**: `data/bulkrna_reduced_3000.tsv`
-- **Type**: `str`
 
-### -dname, --datasetname
-- **Description**: Name of the dataset.
-- **Default Value**: `example`
-- **Type**: `str`
-
-### -n, --nsamples
-- **Description**: Number of pseudobulk samples to generate. Default is recommended.
-- **Default Value**: 5000
-- **Type**: int
-
-### -bs, --batchsize
-- **Description**: Batch size to train with. Default is recommended.
-- **Default Value**: 256
-- **Type**: int
-
-### -o, --output
-- **Description**: Output path for saving the trained model and deconvolved bulkRNA dataframe.
-- **Default Value**: `data/output/`
-- **Type**: `str`
-
-**Usage:** To run Sweetwater you can use the default parameters, which will use a reduced human brain cortex dataset provided in the examples folder. 
+To run Sweetwater you can use the default parameters, which will deconvolve a human brain cortex dataset provided in the examples folder. 
 Make sure the *scrna_reduced_3000.tsv* matrix is available in the data folder by **unziping the scrna_reduced_3000.zip** file. This contains a reduced 
 version of a human brain cortex dataset with only the top 3000 most variant genes
 
