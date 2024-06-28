@@ -38,7 +38,7 @@ Encoder:
 | Layer type              | Linear                      |
 | Number of hidden layers | 2                           |
 | Activation function     | ReLU                        |
-| Embedding dimension     | $$G \rightarrow G^\frac{1}{2} \rightarrow G^\frac{1}{4}$$ |
+| Embedding dimension     | $$G \rightarrow \frac{G}{2} \rightarrow \frac{G}{4}$$ |
 
 Decoder: 
 
@@ -47,7 +47,7 @@ Decoder:
 | Layer type                | Linear          |
 | Number of hidden layer    | 2               |
 | Activation function       | ReLU            |
-| Embedding dimension       | $$G^\frac{1}{4} → G^\frac{1}{2} → G$$ |
+| Embedding dimension       | $$\frac{G}{4} → \frac{G}{2} → G$$ |
 
 Deconvolver:
 
@@ -56,7 +56,7 @@ Deconvolver:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU, Softmax    |
-| Embedding dimension       | $$G^\frac{1}{4} → G^\frac{1}{2} → C_t$$ |
+| Embedding dimension       | $$\frac{G}{4} → \frac{G}{2} → C_t$$ |
 
 The model is trained with:
 
