@@ -38,7 +38,7 @@ Encoder:
 | Layer type              | Linear                      |
 | Number of hidden layers | 2                           |
 | Activation function     | ReLU                        |
-| Embedding dimension     | \( G \rightarrow G^2 \rightarrow G^4 \) |
+| Embedding dimension     | $$ G \rightarrow G^2 \rightarrow G^4 $$ |
 
 Decoder: 
 
