@@ -38,7 +38,7 @@ Encoder:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU     |
-| Embedding dimension       | \(G → G^2 → G^4\) |
+| Embedding dimension       | \( G → G^2 → G^4 \) |
 
 Decoder: 
 
@@ -47,7 +47,7 @@ Decoder:
 | Layer type                | Linear          |
 | Number of hidden layer    | 2               |
 | Activation function       | ReLU            |
-| Embedding dimension       | \(G^4 → G^2 → G\) |
+| Embedding dimension       | \( G^4 → G^2 → G \) |
 
 Deconvolver:
 
@@ -56,7 +56,7 @@ Deconvolver:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU, Softmax    |
-| Embedding dimension       | \(G^4 → G^2 → C_t\) |
+| Embedding dimension       | \( G^4 → G^2 → C_t \) |
 
 The model is trained with:
 
@@ -69,7 +69,7 @@ The model is trained with:
 | EarlyStopper Phase II     | patience = 10 |
 | EarlyStopper Phase III    | patience = 50 |
 
-Here \(G\) is the number of input genes and \(C_t)\ is the number of cell types to be deconvolved. 
+Here \( G \) is the number of input genes and \( C_t \) is the number of cell types to be deconvolved. 
 
 ## Build docker 
 
