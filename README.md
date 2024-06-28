@@ -38,7 +38,7 @@ Encoder:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU     |
-| Embedding dimension       | G -> G^2 -> G^4 |
+| Embedding dimension       | $$G$$ → $$G^2$$ → $$G^4$$ |
 
 Decoder: 
 
@@ -47,7 +47,7 @@ Decoder:
 | Layer type                | Linear          |
 | Number of hidden layer    | 2               |
 | Activation function       | ReLU            |
-| Embedding dimension       | G^4 -> G^2 -> G |
+| Embedding dimension       | $$G^4$$ → $$G^2$$ → $$G$$ |
 
 Deconvolver:
 
@@ -56,9 +56,9 @@ Deconvolver:
 | Layer type                | Linear   |
 | Number of hidden layer    | 2        |
 | Activation function       | ReLU, Softmax    |
-| Embedding dimension       | G^4 -> G^2 -> Ct |
+| Embedding dimension       | $$G^4$$ → $$G^2$$ → $$C_t$$ |
 
-The model is trianed with:
+The model is trained with:
 
 | Parameter type            | Value         |
 |---------------------------|---------------|
@@ -69,10 +69,7 @@ The model is trianed with:
 | EarlyStopper Phase II     | patience = 10 |
 | EarlyStopper Phase III    | patience = 50 |
 
-Here G is the number of input genes and Ct is the number of cell types to be deconvolved. In order to use Sweetwater, 
-we have included an example.ipynb file where it is showed how to deconvolve an expression matrix using a scRNA-seq reference, 
-and perform the interpretability analysis showed in the manuscript, where a reduced version of a human brain cortex 
-dataset (only top 3000 most variant genes) have been included.
+Here $$G$ is the number of input genes and $$C_t$$ is the number of cell types to be deconvolved. 
 
 ## Build docker 
 
@@ -91,9 +88,9 @@ docker run -dt --gpus all --name <container_name> <image_name>
 
 
 
-## Run the model
+## Run the model 
 
-The parameters Sweetwater accepts are the following:
+**Parameters:**
 
 ### -sc, --scrna
 - **Description**: Path to the single-cell RNA matrix file. Should have annotated cell types as the index and genes as the columns.
@@ -125,9 +122,17 @@ The parameters Sweetwater accepts are the following:
 - **Default Value**: `data/output/`
 - **Type**: `str`
 
+**Usage:** To run Sweetwater you can use the default parameters, which will use a reduced human brain cortex dataset provided in the examples folder. 
+Make sure the *scrna_reduced_3000.tsv* matrix is available in the data folder by **unziping the scrna_reduced_3000.zip** file. This contains a reduced 
+version of a human brain cortex dataset with only the top 3000 most variant genes
+
 ```
 python3 src/main.py
 ```
 
-To run Sweetwater you can use the default parameters, which will use a reduced human brain cortex dataset provided in the examples folder. 
+Additionally, we have included a *deconvolution.ipynb* file where it is showed how to deconvolve an expression matrix using a scRNA-seq reference and  
+an *interpretability.ipynb* file that allow to perform the interpretability analysis showed in the manuscript. Again, it is necessary to  
+to **unzip the scrna_reduced_3000.zip** matrix first before running these. For the *fastq_generation_part1.ipynb* and *fastq_generation_part2.ipynb* scripts, a group of empty files 
+have been provided as a placeholder.
+
 
