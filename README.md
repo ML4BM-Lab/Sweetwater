@@ -1,6 +1,6 @@
 # Sweetwater
 An interpretable and adaptive autoencoder for efficient tissue deconvolution. 
-This paper is available in bioRxiv (https://arxiv.org/pdf/2311.11991) and is currently under review.
+This paper is available in Nucleic Acid Reasearch (NAR) (https://academic.oup.com/nar/article/53/16/gkaf821/8245224).
 
 ## Abstract
 **Motivation**:
